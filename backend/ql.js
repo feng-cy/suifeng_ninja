@@ -13,9 +13,33 @@ const api = got.extend({
   retry: { limit: 0 },
 });
 
+// async function getToken() {
+//   const authConfig = JSON.parse(await readFile(authFile));
+//   return authConfig.token;
+// }
+
 async function getToken() {
-  const authConfig = JSON.parse(await readFile(authFile));
-  return authConfig.token;
+  const body = await api({
+      url: 'open/auth/token', searchParams: {
+          client_id: process.env.client_id, client_secret: process.env.client_secret,
+      }
+  }).json();
+  if (body.code !== 200) {
+      throw new QLError("青龙令牌配置错误，请前往管理页面配置！", 500)
+  }
+  return body.data.token;
+}
+
+module.exports.getToken = async () => {
+  const body = await api({
+      url: 'open/auth/token', searchParams: {
+          client_id: process.env.client_id, client_secret: process.env.client_secret,
+      }
+  }).json();
+  if (body.code !== 200) {
+      throw new QLError("青龙令牌配置错误，请前往管理页面配置！", 500)
+  }
+  return body.data.token;
 }
 
 module.exports.getEnvs = async () => {
@@ -68,7 +92,7 @@ module.exports.updateEnv = async (cookie, eid, remarks) => {
     json: {
       name: 'JD_COOKIE',
       value: cookie,
-      _id: eid,
+      id: eid,
       remarks,
     },
     headers: {
