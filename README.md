@@ -10,9 +10,9 @@
 
 仓库地址：https://github.com/MoonBegonia/ninja
 
-感谢WSCK功能原作者：@huiyi9420
+基于@Waikiki版本修改：
 
-仓库地址：https://github.com/huiyi9420/ninja
+仓库地址：https://github.com/Waikkii/Waikiki_ninja
 
 ## 新
 
@@ -209,4 +209,3 @@ pm2 delete ninja
 rm -rf *
 rm -r ./.*
 ```
-# suifeng_ninja
