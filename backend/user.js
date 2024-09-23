@@ -210,7 +210,7 @@ module.exports = class User {
         }
         this.eid = body.data[0].id;
         this.timestamp = body.data[0].timestamp;
-        message = `注册成功，${this.nickName}`;
+        message = `注册成功，${decodeURIComponent(this.pt_pin)}`;
         this.#sendNotify('Ninja 运行通知', `用户 ${this.remark}(${decodeURIComponent(this.pt_pin)}) 已上线`);
       }
     } else {
@@ -220,7 +220,7 @@ module.exports = class User {
         throw new UserError(body.message || '更新账户错误，请重试', 221, body.code || 200);
       }
       this.timestamp = body.data.timestamp;
-      message = `欢迎回来，${this.nickName}`;
+      message = `欢迎回来，${decodeURIComponent(this.pt_pin)}`;
       this.#sendNotify('Ninja 运行通知', `用户 ${this.nickName}(${decodeURIComponent(this.pt_pin)}) 已更新 CK`);
     }
     return {
