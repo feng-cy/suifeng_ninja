@@ -6,7 +6,7 @@ const got1 = require('got');
 require('dotenv').config();
 const QRCode = require('qrcode');
 // 新增  , addWSCKEnv, delWSCKEnv, getWSCKEnvs, getWSCKEnvsCount, updateWSCKEnv
-const { addEnv, delEnv, getEnvs, getEnvsCount, updateEnv , addWSCKEnv, delWSCKEnv, getWSCKEnvs, getWSCKEnvsCount, updateWSCKEnv } = require('./ql');
+const { addEnv, delEnv, getEnvs, getEnvsCount, updateEnv , addWSCKEnv, delWSCKEnv, getWSCKEnvs, getWSCKEnvsCount, updateWSCKEnv, EnableCk } = require('./ql');
 const path = require('path');
 const qlDir = process.env.QL_DIR || '/ql';
 const notifyFile = path.join(qlDir, 'shell/notify.sh');
