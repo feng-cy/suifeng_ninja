@@ -24,9 +24,7 @@
 
 Ninja 仅供学习参考使用，请于下载后的 24 小时内删除，本人不对使用过程中出现的任何问题负责，包括但不限于 `数据丢失` `数据泄露`。
 
-Ninja 仅支持 qinglong 2.8.2+
-
-[TG 频道](https://t.me/joinchat/sHKuteb_lfdjNmZl)
+Ninja 仅支持 qinglong 2.11.0,自用版本。
 
 ## 特性
 
@@ -98,13 +96,21 @@ Ninja 仅支持 qinglong 2.8.2+
    **进容器内执行以下命令**
 
    ```bash
-   git clone https://github.com/Waikkii/waikiki_ninja.git /ql/ninja
+   git clone https://github.com/feng-cy/suifeng_ninja.git /ql/ninja
    cd /ql/ninja/backend
    pnpm install
    cp .env.example .env # 如有需要, 修改.env
    pm2 start
    cp sendNotify.js /ql/scripts/sendNotify.js
    ```
+
+   在 `.env` 文件中添加以下内容：
+
+  ```bash
+  QL_URL=http://localhost:5700
+  client_id=****
+  client_secret=********
+  ```
 
 3. 将以下内容粘贴到 `extra.sh`（重启后自动更新并启动 Ninja）
 
@@ -124,7 +130,7 @@ Ninja 仅支持 qinglong 2.8.2+
 使用此种方法无法跟随青龙一起启动，**无法发送扫码通知**，请知悉。
 
 ```bash
-git clone https://github.com/Waikkii/waikiki_ninja.git
+git clone https://github.com/feng-cy/suifeng_ninja.git
 cd ninja/backend
 pnpm install
 # 复制 sendNotify.js 到容器内 scripts 目录，`qinglong` 为容器名
@@ -140,6 +146,8 @@ node app.js
 ```bash
 QL_DIR=qinglong 容器的本地路径
 QL_URL=http://localhost:5700
+client_id=****
+client_secret=******
 ```
 
 `node app.js` 想要在后台运行可以使用 `&` `nohup` `screen` 等命令。

@@ -21,7 +21,8 @@ const api = got.extend({
 async function getToken() {
   const body = await api({
       url: 'open/auth/token', searchParams: {
-          client_id: process.env.client_id, client_secret: process.env.client_secret,
+          client_id: process.env.client_id, 
+          client_secret: process.env.client_secret,
       }
   }).json();
   if (body.code !== 200) {
@@ -33,7 +34,8 @@ async function getToken() {
 module.exports.getToken = async () => {
   const body = await api({
       url: 'open/auth/token', searchParams: {
-          client_id: process.env.client_id, client_secret: process.env.client_secret,
+          client_id: process.env.client_id, 
+          client_secret: process.env.client_secret,
       }
   }).json();
   if (body.code !== 200) {
@@ -45,7 +47,7 @@ module.exports.getToken = async () => {
 module.exports.getEnvs = async () => {
   const token = await getToken();
   const body = await api({
-    url: 'api/envs',
+    url: 'open/envs',
     searchParams: {
       searchValue: 'JD_COOKIE',
       t: Date.now(),
@@ -55,6 +57,7 @@ module.exports.getEnvs = async () => {
       authorization: `Bearer ${token}`,
     },
   }).json();
+  // console.log("getEnvs", body)
   return body.data;
 };
 
@@ -67,7 +70,7 @@ module.exports.addEnv = async (cookie, remarks) => {
   const token = await getToken();
   const body = await api({
     method: 'post',
-    url: 'api/envs',
+    url: 'open/envs',
     params: { t: Date.now() },
     json: [{
       name: 'JD_COOKIE',
@@ -80,6 +83,7 @@ module.exports.addEnv = async (cookie, remarks) => {
       'Content-Type': 'application/json;charset=UTF-8',
     },
   }).json();
+  // console.log("addEnv", body)
   return body;
 };
 
@@ -87,7 +91,7 @@ module.exports.updateEnv = async (cookie, eid, remarks) => {
   const token = await getToken();
   const body = await api({
     method: 'put',
-    url: 'api/envs',
+    url: 'open/envs',
     params: { t: Date.now() },
     json: {
       name: 'JD_COOKIE',
@@ -108,7 +112,7 @@ module.exports.delEnv = async (eid) => {
   const token = await getToken();
   const body = await api({
     method: 'delete',
-    url: 'api/envs',
+    url: 'open/envs',
     params: { t: Date.now() },
     body: JSON.stringify([eid]),
     headers: {
@@ -125,7 +129,7 @@ module.exports.delEnv = async (eid) => {
 module.exports.getWSCKEnvs = async () => {
   const token = await getToken();
   const body = await api({
-    url: 'api/envs',
+    url: 'open/envs',
     searchParams: {
       searchValue: 'JD_WSCK',
       t: Date.now(),
@@ -147,7 +151,7 @@ module.exports.addWSCKEnv = async (jdwsck, remarks) => {
   const token = await getToken();
   const body = await api({
     method: 'post',
-    url: 'api/envs',
+    url: 'open/envs',
     params: { t: Date.now() },
     json: [{
       name: 'JD_WSCK',
@@ -167,7 +171,7 @@ module.exports.updateWSCKEnv = async (jdwsck, wseid, remarks) => {
   const token = await getToken();
   const body = await api({
     method: 'put',
-    url: 'api/envs',
+    url: 'open/envs',
     params: { t: Date.now() },
     json: {
       name: 'JD_WSCK',
@@ -188,7 +192,7 @@ module.exports.delWSCKEnv = async (wseid) => {
   const token = await getToken();
   const body = await api({
     method: 'delete',
-    url: 'api/envs',
+    url: 'open/envs',
     params: { t: Date.now() },
     body: JSON.stringify([wseid]),
     headers: {
