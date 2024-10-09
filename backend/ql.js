@@ -26,7 +26,7 @@ async function getToken() {
       }
   }).json();
   if (body.code !== 200) {
-      throw new QLError("青龙令牌配置错误，请前往管理页面配置！", 500)
+      // throw new QLError("青龙令牌配置错误，请前往管理页面配置！", 500)
   }
   return body.data.token;
 }
@@ -39,7 +39,7 @@ module.exports.getToken = async () => {
       }
   }).json();
   if (body.code !== 200) {
-      throw new QLError("青龙令牌配置错误，请前往管理页面配置！", 500)
+      // throw new QLError("青龙令牌配置错误，请前往管理页面配置！", 500)
   }
   return body.data.token;
 }

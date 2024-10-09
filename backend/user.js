@@ -203,7 +203,7 @@ module.exports = class User {
       } else if (poolInfo.marginCount === 0) {
         throw new UserError('本站已到达注册上限，你来晚啦', 211, 200);
       } else {
-        const remarks = `remark=${remark};`;
+        const remarks = `remark=${this.remark};`;
         const body = await addEnv(this.cookie, remarks);
         if (body.code !== 200) {
           throw new UserError(body.message || '添加账户错误，请重试', 220, body.code || 200);
