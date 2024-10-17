@@ -24,7 +24,8 @@
 
 Ninja 仅供学习参考使用，请于下载后的 24 小时内删除，本人不对使用过程中出现的任何问题负责，包括但不限于 `数据丢失` `数据泄露`。
 
-Ninja 仅支持 qinglong 2.11.0,自用版本。
+ Ninja 仅支持 qinglong 2.11.0,自用版本。
+202409-因旧版本频繁报错，已升级2.17.11最新版。旧版不再支持。
 
 ## 特性
 
@@ -40,11 +41,15 @@ Ninja 仅支持 qinglong 2.11.0,自用版本。
 
 ## 文档
 
+
+
 ### 容器内
+
 
 1. 容器映射 5701 端口，ninja 目录至宿主机
 
    例（docker-compose）：
+   #### 比如我当前目录为/root/ql/data
 
    ```diff
    version: "3"
@@ -56,39 +61,34 @@ Ninja 仅支持 qinglong 2.11.0,自用版本。
        tty: true
        ports:
          - 5700:5700
-   +      - 5701:5701
+   +     - 5701:5701
        environment:
          - ENABLE_HANGUP=true
          - ENABLE_WEB_PANEL=true
        volumes:
-         - ./config:/ql/config
-         - ./log:/ql/log
-         - ./db:/ql/db
-         - ./repo:/ql/repo
-         - ./raw:/ql/raw
-         - ./scripts:/ql/scripts
-         - ./jbot:/ql/jbot
-   +      - ./ninja:/ql/ninja
+         - ./config:/ql/data/config
+         - ./log:/ql/data/log
+         - ./db:/ql/data/db
+         - ./repo:/ql/data/repo
+         - ./raw:/ql/data/raw
+         - ./scripts:/ql/data/scripts
+         - ./jbot:/ql/data/jbot
+   +      - ./ninja:/ql/data/ninja
    ```
 
    例（docker-run）：
-
+#### 比如我当前目录为/root
    ```diff
    docker run -dit \
-     -v $PWD/ql/config:/ql/config \
-     -v $PWD/ql/log:/ql/log \
-     -v $PWD/ql/db:/ql/db \
-     -v $PWD/ql/repo:/ql/repo \
-     -v $PWD/ql/raw:/ql/raw \
-     -v $PWD/ql/scripts:/ql/scripts \
-     -v $PWD/ql/jbot:/ql/jbot \
-   + -v $PWD/ql/ninja:/ql/ninja \
-     -p 5700:5700 \
-   + -p 5701:5701 \
-     --name qinglong \
-     --hostname qinglong \
-     --restart unless-stopped \
-     whyour/qinglong:latest
+    -v $PWD/ql/data:/ql/data \
+    -p 5700:5700 \
+    -p 5701:5701 \
+    -e QlBaseUrl="/" \
+    -e QlPort="5700" \
+    --name qinglong \
+    --hostname qinglong \
+    --restart unless-stopped \
+    whyour/qinglong:latest
    ```
 
 2. 进容器内执行以下命令
@@ -96,12 +96,12 @@ Ninja 仅支持 qinglong 2.11.0,自用版本。
    **进容器内执行以下命令**
 
    ```bash
-   git clone https://github.com/feng-cy/suifeng_ninja.git /ql/ninja
-   cd /ql/ninja/backend
+   git clone https://github.com/feng-cy/suifeng_ninja.git /ql/data/ninja
+   cd /ql/data/ninja/backend
    pnpm install
    cp .env.example .env # 如有需要, 修改.env
    pm2 start
-   cp sendNotify.js /ql/scripts/sendNotify.js
+   cp sendNotify.js /ql/data/scripts/sendNotify.js
    ```
 
    在 `.env` 文件中添加以下内容：
@@ -115,12 +115,12 @@ Ninja 仅支持 qinglong 2.11.0,自用版本。
 3. 将以下内容粘贴到 `extra.sh`（重启后自动更新并启动 Ninja）
 
    ```bash
-   cd /ql/ninja/backend
+   cd /ql/data/ninja/backend
    git checkout .
    git pull
    pnpm install
    pm2 start
-   cp sendNotify.js /ql/scripts/sendNotify.js
+   cp sendNotify.js /ql/data/scripts/sendNotify.js
    ```
 
 ### 容器外
@@ -134,7 +134,7 @@ git clone https://github.com/feng-cy/suifeng_ninja.git
 cd ninja/backend
 pnpm install
 # 复制 sendNotify.js 到容器内 scripts 目录，`qinglong` 为容器名
-sudo docker cp sendNotify.js qinglong:/ql/scripts/sendNotify.js
+sudo docker cp sendNotify.js qinglong:/ql/data/scripts/sendNotify.js
 cp .env.example .env
 # 修改env文件
 vi .env
@@ -171,7 +171,7 @@ client_secret=******
 配置方式：
 
 ```bash
-cd /ql/ninja/backend
+cd /ql/data/ninja/backend
 cp .env.example .env
 vi .env
 pm2 start
@@ -202,7 +202,7 @@ pm2 start
 ## 如何更新Ninja
 
 ```bash
-cd /ql/ninja
+cd /ql/data/ninja
 git checkout .
 git pull
 cd backend
@@ -212,7 +212,7 @@ pm2 start
 ## 如何删除Ninja
 
 ```bash
-cd /ql/ninja
+cd /ql/data/ninja
 pm2 delete ninja
 rm -rf *
 rm -r ./.*
